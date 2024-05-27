@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Make sure the path is correct based on your project structure
 import 'SignUpPage.dart'; // Make sure this path is correct
+import 'forgot_password.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,8 +24,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // default is login page
       routes: {
         '/': (context) => LoginPage(),
-        '/signup': (context) => SignUpPage(), // Adding the signup route
+        '/signup': (context) => SignUpPage(), 
+        '/forgotPassword': (context) => ForgotPassword()
+        
       },
     );
   }
 }
+

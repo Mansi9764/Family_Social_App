@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 
@@ -8,6 +9,7 @@ class SignUpPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 226, 240, 247),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -45,7 +47,7 @@ class SignUpPage extends StatelessWidget {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
-                          fillColor: Colors.purple.withOpacity(0.1),
+                          fillColor: Color.fromARGB(255, 6, 52, 89).withOpacity(0.1),
                           filled: true,
                           prefixIcon: const Icon(Icons.person)),
                     ),
@@ -58,7 +60,7 @@ class SignUpPage extends StatelessWidget {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
-                          fillColor: Colors.purple.withOpacity(0.1),
+                          fillColor: Color.fromARGB(255, 6, 52, 89).withOpacity(0.1),
                           filled: true,
                           prefixIcon: const Icon(Icons.email)),
                     ),
@@ -71,7 +73,7 @@ class SignUpPage extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
                             borderSide: BorderSide.none),
-                        fillColor: Colors.purple.withOpacity(0.1),
+                        fillColor: Color.fromARGB(255, 6, 52, 89).withOpacity(0.1),
                         filled: true,
                         prefixIcon: const Icon(Icons.password),
                       ),
@@ -86,7 +88,7 @@ class SignUpPage extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
                             borderSide: BorderSide.none),
-                        fillColor: Colors.purple.withOpacity(0.1),
+                        fillColor: Color.fromARGB(255, 6, 52, 89).withOpacity(0.1),
                         filled: true,
                         prefixIcon: const Icon(Icons.password),
                       ),
@@ -102,79 +104,54 @@ class SignUpPage extends StatelessWidget {
                       },
                       child: const Text(
                         "Sign up",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20,color:Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
                         shape: const StadiumBorder(),
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        backgroundColor: Colors.purple,
+                        backgroundColor: const Color.fromARGB(255, 13, 61, 101),
                       ),
                     )
                 ),
 
                 const Center(child: Text("Or")),
 
-                Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: Colors.purple,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: const Offset(0, 1), // changes position of shadow
+                  Container(
+                    padding: const EdgeInsets.only(top: 3, left: 3),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
-                    ],
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 30.0,
-                          width: 30.0,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image:   AssetImage('assets/images/login_signup/google.png'),
-                                fit: BoxFit.cover),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 18),
-
-                        const Text("Sign In with Google",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.purple,
-                          ),
-                        ),
-                      ],
+                      style: ElevatedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: const Color.fromARGB(255, 13, 61, 101),
+                      ),
                     ),
                   ),
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text("Already have an account?"),
-                    TextButton(
+                  const Center(child: Text("Or")),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Already have an account?"),
+                      TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/');
                         },
-                        child: const Text("Login", style: TextStyle(color: Colors.purple),)
-                    )
-                  ],
-                )
-              ],
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(color: Color.fromARGB(255, 13, 61, 101)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
     );
   }
 }

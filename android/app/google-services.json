@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "804874830676",
+    "project_id": "sofam-de5b9",
+    "storage_bucket": "sofam-de5b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804874830676:android:2f1380011069c78f433ec1",
+        "android_client_info": {
+          "package_name": "com.example.family_social"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSAX_k5Ns2WhaV_mWH2hQ_BkOo0whlat4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
