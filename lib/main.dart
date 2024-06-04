@@ -1,12 +1,29 @@
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // Make sure the path is correct based on your project structure
-import 'SignUpPage.dart'; // Make sure this path is correct
-import 'forgot_password.dart';
+import 'features/login_screen.dart'; 
+import 'features/SignUpPage.dart'; 
+import 'features/forgot_password.dart';
+import 'features/GoogleSignUp.dart';
 
-void main() {
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  if(kIsWeb){
+    await Firebase.initializeApp(options:FirebaseOptions(
+    apiKey: "AIzaSyAjvuQJ7M_Fnk7IJLmTx2B-eLo0ap74-_o",
+    appId: "1:804874830676:web:ce08f1862bfd7994433ec1", 
+    messagingSenderId: "804874830676",
+    projectId: "sofam-de5b9",),
+    );
+  }else{
+    await Firebase.initializeApp();
+  }
+  
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -25,8 +42,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(), 
-        '/forgotPassword': (context) => ForgotPassword()
-        
+        '/forgotPassword': (context) => ForgotPassword(),
+        '/signUpWithGoogle': (context) => GmailInputPage(),
       },
     );
   }

@@ -12,7 +12,12 @@
           "package_name": "com.example.family_social"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "804874830676-45mqaat0jb4cqs3ksrdo82es4aguogpb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDSAX_k5Ns2WhaV_mWH2hQ_BkOo0whlat4"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804874830676-45mqaat0jb4cqs3ksrdo82es4aguogpb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "804874830676-eopsjj6laj7130cta0o29jfh5rtmm1nc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.familySocial"
+              }
+            }
+          ]
         }
       }
     }
