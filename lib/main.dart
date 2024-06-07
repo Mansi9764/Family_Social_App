@@ -6,23 +6,36 @@ import 'features/login_screen.dart';
 import 'features/SignUpPage.dart'; 
 import 'features/forgot_password.dart';
 import 'features/GoogleSignUp.dart';
+//import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
+//import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-Future main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+
+void main() => runApp(MyApp());
+
+// Future main() async{
+//   WidgetsFlutterBinding.ensureInitialized();
   
-  if(kIsWeb){
-    await Firebase.initializeApp(options:FirebaseOptions(
-    apiKey: "AIzaSyAjvuQJ7M_Fnk7IJLmTx2B-eLo0ap74-_o",
-    appId: "1:804874830676:web:ce08f1862bfd7994433ec1", 
-    messagingSenderId: "804874830676",
-    projectId: "sofam-de5b9",),
-    );
-  }else{
-    await Firebase.initializeApp();
-  }
+//   if(kIsWeb){
+//     //sqfliteFfiInit();
+
+//     databaseFactory = databaseFactoryFfi;
+//     // await Firebase.initializeApp(options:FirebaseOptions(
+//     // apiKey: "AIzaSyAjvuQJ7M_Fnk7IJLmTx2B-eLo0ap74-_o",
+//     // appId: "1:804874830676:web:ce08f1862bfd7994433ec1", 
+//     // messagingSenderId: "804874830676",
+//     // projectId: "sofam-de5b9",),
+//     // );
+//   }else{
+//     sqfliteFfiInit();
+
+
+//     databaseFactory = databaseFactoryFfi;
+//     //await Firebase.initializeApp();
+
+//   }
   
-  runApp(MyApp());
-}
+//   runApp(MyApp());
+// }
 
 
 class MyApp extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:family_social/databases/database_helper.dart'; // Import your database helper
+import 'package:family_social/databases/database_helper.dart';
+import 'dart:html';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -25,7 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
-  void _register() async {
+   void _register() async {
     if (_formKey.currentState?.validate() ?? false) {
       String username = _usernameController.text;
       String email = _emailController.text;
@@ -36,13 +37,31 @@ class _SignUpPageState extends State<SignUpPage> {
         'email': email,
         'password': password,
       };
-      print("User register method "+username);
-      await DatabaseHelper().insertUser(user);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('User Registered Successfully')),
-      );
 
-      Navigator.pushNamed(context, '/'); // Navigate to login page
+      try {
+        var existingUser = await DatabaseHelper().getUserByEmail(email);
+        if (existingUser != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Email already exists')),
+          );
+          return;
+        }
+
+        await DatabaseHelper().insertUser(user);
+        print(user);
+        print("User Registration done");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User registered successfully')),
+        );
+        _formKey.currentState?.reset();
+        Navigator.pushNamed(context, '/'); // Navigate to the login page
+      } catch (e) {
+        print(e.toString());
+        //window.console.error(e.toString());
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
     }
   }
 

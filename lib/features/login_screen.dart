@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_button/sign_in_button.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:family_social/databases/database_helper.dart'; 
 
 class LoginPage extends StatefulWidget {
@@ -29,24 +28,24 @@ class _LoginPageState extends State<LoginPage>{
     super.dispose();
   }
 
-void _login() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      String username = _usernameController.text;
-      String password = _passwordController.text;
+// void _login() async {
+//     if (_formKey.currentState?.validate() ?? false) {
+//       String username = _usernameController.text;
+//       String password = _passwordController.text;
 
-      Map<String, dynamic>? user = await DatabaseHelper().getUser(username, password);
-      if (user != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login Successful')),
-        );
-        Navigator.pushNamed(context, '/home'); // Navigate to the home page
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid Username or Password')),
-        );
-      }
-    }
-  }
+//       Map<String, dynamic>? user = await DatabaseHelper().getUsers(username, password);
+//       if (user != null) {
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text('Login Successful')),
+//         );
+//         Navigator.pushNamed(context, '/home'); // Navigate to the home page
+//       } else {
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text('Invalid Username or Password')),
+//         );
+//       }
+//     }
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +149,7 @@ void _login() async {
           Container(
                   padding: const EdgeInsets.only(top: 3, left: 3),
                   child: ElevatedButton(
-                    onPressed: _login,
+                    onPressed: (){},
                     child: const Text(
                       "Login",
                       style: TextStyle(fontSize: 20, color: Colors.white),

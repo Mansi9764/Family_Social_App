@@ -1,57 +1,87 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:family_social/Json_Models/users.dart';
+import 'dart:async';
+
+
 
 class DatabaseHelper {
-  static final DatabaseHelper _instance = DatabaseHelper._internal();
+  static final DatabaseHelper _instance = new DatabaseHelper.internal();
   factory DatabaseHelper() => _instance;
 
-  static Database? _database;
+  static Database? _db;
 
-  DatabaseHelper._internal();
-
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
-    return _database!;
-  }
-
-  Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'app_database.db');
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _onCreate,
-    );
-  }
-
-  Future<void> _onCreate(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        email TEXT NOT NULL,
-        password TEXT NOT NULL
-      )
-    ''');
-  }
-
-  Future<int> insertUser(Map<String, dynamic> user) async {
-    Database db = await database;
-    print("inserting user");
-    return await db.insert('users', user);
-  }
-
-  Future<Map<String, dynamic>?> getUser(String username, String password) async {
-    Database db = await database;
-    List<Map<String, dynamic>> results = await db.query(
-      'users',
-      where: 'username = ? AND password = ?',
-      whereArgs: [username, password],
-    );
-
-    if (results.isNotEmpty) {
-      return results.first;
+  Future<Database> get db async {
+    if (_db != null) {
+      return _db!;
     }
-    return null;
+    _db = await initDb();
+    return _db!;
   }
+
+  DatabaseHelper.internal();
+
+  initDb() async {
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentDirectory.path, "main.db");
+    var ourDb = await openDatabase(path, version: 1, onCreate: _onCreate);
+    return ourDb;
+  }
+
+  void _onCreate(Database db, int version) async {
+    await db.execute(
+        "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT, password TEXT)");
+    print("Table is created");
+  }
+
+//insertion
+  Future<int> saveUser(User user) async {
+    var dbClient = await db;
+
+    int res = await dbClient.insert("User", user.toMap());
+    print(res);
+    return res;
+  }
+
+  //deletion
+  Future<int> deleteUser(User user) async {
+    var dbClient = await db;
+    int res = await dbClient.delete("User");
+    return res;
+  }
+
+  Future<User> checkUser(User user) async{
+    var dbClient = await db;
+    List<Map<String,dynamic>> res = await dbClient.query("User",where:'"username" = ? and "password"=?',whereArgs: [user.username,user.password]);
+    print(res);
+    for (var row in res)
+    {
+
+      return new Future<User>.value(User.map(row));
+    }
+    return new Future<User>.error("Unable to find User");
+  }
+
+  Future<List<User>> getAllUser() async {
+    var dbClient = await db;
+    List<User> users=[];
+    List<Map<String,dynamic>> res = await dbClient.query("User");
+    for(var row in res)
+    {
+      //print(row['id']);
+      users.add(User.map(row));
+    }
+    return new Future<List<User>>.value(users);
+  }
+  Future<int> deleteSingleUser(int id) async {
+    var dbClient  = await db;
+    Future<int> res = dbClient.delete("User",where:'"id" = ?',whereArgs: [id]);
+    return res;
+  }
+
+  getUserByEmail(String email) {}
+
+  insertUser(Map<String, dynamic> user) {}
 }
