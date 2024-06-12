@@ -6,6 +6,7 @@ import 'features/login_screen.dart';
 import 'features/SignUpPage.dart'; 
 import 'features/forgot_password.dart';
 import 'features/GoogleSignUp.dart';
+import 'features/profile_screen.dart';
 //import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 //import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // default is login page
       routes: {
         '/': (context) => LoginPage(),
+        '/home':(context) => ProfilePage(),
         '/signup': (context) => SignUpPage(), 
         '/forgotPassword': (context) => ForgotPassword(),
         '/signUpWithGoogle': (context) => GmailInputPage(),

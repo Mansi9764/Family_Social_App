@@ -1,87 +1,99 @@
+import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:family_social/Json_Models/users.dart';
-import 'dart:async';
-
-
 
 class DatabaseHelper {
-  static final DatabaseHelper _instance = new DatabaseHelper.internal();
+  static final DatabaseHelper _instance = DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
+  DatabaseHelper._internal();
 
-  static Database? _db;
+  static Database? _database;
 
-  Future<Database> get db async {
-    if (_db != null) {
-      return _db!;
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDatabase();
+    return _database!;
+  }
+
+  Future<Database> _initDatabase() async {
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentsDirectory.path, 'users.db');
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+    );
+  }
+
+  Future<void> _onCreate(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        email TEXT,
+        password TEXT
+      )
+    ''');
+  }
+
+  Future<int> insertUser(Map<String, dynamic> user) async {
+    try {
+      Database db = await database;
+      return await db.insert('users', user);
+    } catch (e) {
+      // Handle error
+      return Future.error('Error inserting user: $e');
     }
-    _db = await initDb();
-    return _db!;
   }
 
-  DatabaseHelper.internal();
-
-  initDb() async {
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path, "main.db");
-    var ourDb = await openDatabase(path, version: 1, onCreate: _onCreate);
-    return ourDb;
-  }
-
-  void _onCreate(Database db, int version) async {
-    await db.execute(
-        "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT, password TEXT)");
-    print("Table is created");
-  }
-
-//insertion
-  Future<int> saveUser(User user) async {
-    var dbClient = await db;
-
-    int res = await dbClient.insert("User", user.toMap());
-    print(res);
-    return res;
-  }
-
-  //deletion
-  Future<int> deleteUser(User user) async {
-    var dbClient = await db;
-    int res = await dbClient.delete("User");
-    return res;
-  }
-
-  Future<User> checkUser(User user) async{
-    var dbClient = await db;
-    List<Map<String,dynamic>> res = await dbClient.query("User",where:'"username" = ? and "password"=?',whereArgs: [user.username,user.password]);
-    print(res);
-    for (var row in res)
-    {
-
-      return new Future<User>.value(User.map(row));
+  Future<Map<String, dynamic>?> getUserByEmail(String email) async {
+    try {
+      Database db = await database;
+      List<Map<String, dynamic>> result = await db.query(
+        'users',
+        where: 'email = ?',
+        whereArgs: [email],
+      );
+      return result.isNotEmpty ? result.first : null;
+    } catch (e) {
+      // Handle error
+      return Future.error('Error fetching user by email: $e');
     }
-    return new Future<User>.error("Unable to find User");
   }
 
-  Future<List<User>> getAllUser() async {
-    var dbClient = await db;
-    List<User> users=[];
-    List<Map<String,dynamic>> res = await dbClient.query("User");
-    for(var row in res)
-    {
-      //print(row['id']);
-      users.add(User.map(row));
+  Future<Map<String, dynamic>?> getUserByUsername(String username) async {
+    try {
+      Database db = await database;
+      List<Map<String, dynamic>> result = await db.query(
+        'users',
+        where: 'username = ?',
+        whereArgs: [username],
+      );
+      return result.isNotEmpty ? result.first : null;
+    } catch (e) {
+      // Handle error
+      return Future.error('Error fetching user by username: $e');
     }
-    return new Future<List<User>>.value(users);
-  }
-  Future<int> deleteSingleUser(int id) async {
-    var dbClient  = await db;
-    Future<int> res = dbClient.delete("User",where:'"id" = ?',whereArgs: [id]);
-    return res;
   }
 
-  getUserByEmail(String email) {}
+  Future<List<Map<String, dynamic>>> getAllUsers() async {
+    try {
+      Database db = await database;
+      return await db.query('users');
+    } catch (e) {
+      // Handle error
+      return Future.error('Error fetching all users: $e');
+    }
+  }
 
-  insertUser(Map<String, dynamic> user) {}
+  Future<void> close() async {
+    try {
+      Database db = await database;
+      await db.close();
+    } catch (e) {
+      // Handle error
+      return Future.error('Error closing database: $e');
+    }
+  }
 }

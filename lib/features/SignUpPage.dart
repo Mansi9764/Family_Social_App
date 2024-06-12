@@ -1,3 +1,4 @@
+import 'package:family_social/Json_Models/users.dart';
 import 'package:flutter/material.dart';
 import 'package:family_social/databases/database_helper.dart';
 import 'dart:html';
@@ -26,6 +27,8 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
+
+
    void _register() async {
     if (_formKey.currentState?.validate() ?? false) {
       String username = _usernameController.text;
@@ -37,8 +40,9 @@ class _SignUpPageState extends State<SignUpPage> {
         'email': email,
         'password': password,
       };
-
+      print("register method");
       try {
+        //var databaseHelper = DatabaseHelper();
         var existingUser = await DatabaseHelper().getUserByEmail(email);
         if (existingUser != null) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -46,10 +50,10 @@ class _SignUpPageState extends State<SignUpPage> {
           );
           return;
         }
-
+        print("inside try");
         await DatabaseHelper().insertUser(user);
-        print(user);
-        print("User Registration done");
+        print("User inserted: $user");
+        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('User registered successfully')),
         );
@@ -57,7 +61,6 @@ class _SignUpPageState extends State<SignUpPage> {
         Navigator.pushNamed(context, '/'); // Navigate to the login page
       } catch (e) {
         print(e.toString());
-        //window.console.error(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.toString()}')),
         );

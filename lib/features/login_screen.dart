@@ -28,24 +28,33 @@ class _LoginPageState extends State<LoginPage>{
     super.dispose();
   }
 
-// void _login() async {
-//     if (_formKey.currentState?.validate() ?? false) {
-//       String username = _usernameController.text;
-//       String password = _passwordController.text;
+void _login() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      print("Going to login screen");
+      String username = _usernameController.text;
+      String password = _passwordController.text;
+  
+      // final _formKey = GlobalKey<FormState>();
 
-//       Map<String, dynamic>? user = await DatabaseHelper().getUsers(username, password);
-//       if (user != null) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(content: Text('Login Successful')),
-//         );
-//         Navigator.pushNamed(context, '/home'); // Navigate to the home page
-//       } else {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(content: Text('Invalid Username or Password')),
-//         );
-//       }
-//     }
-//   }
+
+
+      Map<String, dynamic>? user = await DatabaseHelper().getUserByUsername(username);
+      
+      if (user != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login Successful')),
+        );
+        print("user"+user.toString());
+        Navigator.pushNamed(context, '/home'); // Navigate to the home page
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Invalid Username or Password')),
+        );
+        print("user"+user.toString());
+        print("Invalid");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +158,7 @@ class _LoginPageState extends State<LoginPage>{
           Container(
                   padding: const EdgeInsets.only(top: 3, left: 3),
                   child: ElevatedButton(
-                    onPressed: (){},
+                    onPressed: _login,
                     child: const Text(
                       "Login",
                       style: TextStyle(fontSize: 20, color: Colors.white),
