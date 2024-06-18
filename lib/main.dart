@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpPage(), 
         '/forgotPassword': (context) => ForgotPassword(),
         '/signUpWithGoogle': (context) => GmailInputPage(),
+        '/profile':(context) => ProfilePage(),
       },
     );
   }

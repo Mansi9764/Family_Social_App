@@ -1,3 +1,4 @@
+import 'package:family_social/features/SignUpPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -38,7 +39,7 @@ void _login() async {
 
 
 
-      Map<String, dynamic>? user = await DatabaseHelper().getUserByUsername(username);
+      Map<String, dynamic>? user = await DatabaseHelper().getUserByEmail(username);
       
       if (user != null) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -81,20 +82,21 @@ void _login() async {
     );
   }
 
- _logo(context){
-  return Image.asset(
-      'welcome.png',
-      height: 100, // Set the desired height for the logo
+
+ Widget _logo(BuildContext context) {
+    return Image.asset(
+      'assets/images/welcome.png',
+      height: 100, 
       fit: BoxFit.contain,
     );
- }
+  }
 
   _header(context) {
     return const Column(
       children: [
         Text(
           "Welcome To SoFam",
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         Text("Enter your credential to login"),
       ],
@@ -193,7 +195,8 @@ void _login() async {
         const Text("Dont have an account? "),
         TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/signup');
+              // Navigator.pushNamed(context, '/signup');
+              Navigator.push(context,MaterialPageRoute(builder: (context) => SignUpPage()));
             },
             child: const Text("Sign Up", style: TextStyle(color: Color.fromARGB(255, 17, 32, 116)),)
         )

@@ -1,7 +1,6 @@
 import 'package:family_social/Json_Models/users.dart';
 import 'package:flutter/material.dart';
 import 'package:family_social/databases/database_helper.dart';
-import 'dart:html';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -29,7 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
 
 
-   void _register() async {
+ void _register() async {
     if (_formKey.currentState?.validate() ?? false) {
       String username = _usernameController.text;
       String email = _emailController.text;
@@ -40,9 +39,8 @@ class _SignUpPageState extends State<SignUpPage> {
         'email': email,
         'password': password,
       };
-      print("register method");
+
       try {
-        //var databaseHelper = DatabaseHelper();
         var existingUser = await DatabaseHelper().getUserByEmail(email);
         if (existingUser != null) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -50,23 +48,25 @@ class _SignUpPageState extends State<SignUpPage> {
           );
           return;
         }
-        print("inside try");
+
         await DatabaseHelper().insertUser(user);
-        print("User inserted: $user");
-        
+        print(user);
+        print("User Registration done");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('User registered successfully')),
         );
         _formKey.currentState?.reset();
-        Navigator.pushNamed(context, '/'); // Navigate to the login page
+        Navigator.pushNamed(context, '/profile'); // Navigate to the login page
       } catch (e) {
         print(e.toString());
+        //window.console.error(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.toString()}')),
         );
       }
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
