@@ -6,12 +6,21 @@ import 'features/login_screen.dart';
 import 'features/SignUpPage.dart'; 
 import 'features/forgot_password.dart';
 import 'features/GoogleSignUp.dart';
-import 'features/profile_screen.dart';
+import 'features/profiles_screen/father_profile.dart';
 //import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 //import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+    try {
+        await Firebase.initializeApp();
+      } catch (e) {
+        print("Firebase ka initialization error: $e");
+      }
+  runApp(MyApp());
+}
 
-void main() => runApp(MyApp());
+
 
 // Future main() async{
 //   WidgetsFlutterBinding.ensureInitialized();

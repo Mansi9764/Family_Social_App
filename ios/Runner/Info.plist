@@ -45,5 +45,33 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Firebase configuration -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Replace with your REVERSED_CLIENT_ID from GoogleService-Info.plist -->
+				<string>com.googleusercontent.apps.804874830676-2oj0c3d0anivj12ppat1pihpgaflfrgp</string>
+			</array>
+		</dict>
+	</array>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
+	<key>GoogleServices-Info.plist</key>
+	<string>GoogleService-Info.plist</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>googlechrome</string>
+		<string>com.google.chrome.ios</string>
+		<string>googlechrome-x-callback</string>
+		<string>com.google.chrome.ios.lite</string>
+		<string>com.google.chrome.ios.dev</string>
+	</array>
+	<key>io.flutter.impeller</key>
+    <false/>
+
 </dict>
 </plist>

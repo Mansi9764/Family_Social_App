@@ -1,6 +1,10 @@
 import 'package:family_social/Json_Models/users.dart';
 import 'package:flutter/material.dart';
-import 'package:family_social/databases/database_helper.dart';
+// import 'package:family_social/databases/database_helper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:random_string/random_string.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -39,27 +43,48 @@ class _SignUpPageState extends State<SignUpPage> {
         'email': email,
         'password': password,
       };
-
+      print("register method");
       try {
-        var existingUser = await DatabaseHelper().getUserByEmail(email);
-        if (existingUser != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Email already exists')),
-          );
-          return;
-        }
-
-        await DatabaseHelper().insertUser(user);
-        print(user);
-        print("User Registration done");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('User registered successfully')),
+        // Register the user with Firebase Authentication
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
         );
-        _formKey.currentState?.reset();
-        Navigator.pushNamed(context, '/profile'); // Navigate to the login page
+
+        var user = userCredential.user;
+        if (user != null) {
+          // Prepare the user data
+          Map<String, dynamic> userData = {
+            'id': randomAlphaNumeric(10),
+            'username': username,
+            'email': email,
+            
+          };
+
+          // Add the user data to Firestore
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).set(userData);
+
+          Fluttertoast.showToast(
+            msg: "User has been added successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+
+          print(userData);
+          print("User Registration done");
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('User registered successfully')),
+          );
+          _formKey.currentState?.reset();
+          Navigator.pushNamed(context, '/profile'); // Ensure the route exists
+        }
       } catch (e) {
         print(e.toString());
-        //window.console.error(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.toString()}')),
         );
